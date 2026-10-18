@@ -1,0 +1,10 @@
+﻿.env
+.env.*
+!.env.example
+portfolio.db
+*.db
+__pycache__/
+*.pyc
+venv/
+.venv/
+.git/

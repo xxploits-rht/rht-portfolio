@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login | RHT Security</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <section class="login-card">
+
+            <a href="{{ url_for('home') }}" class="admin-logo">
+                RHT // SECURITY
+            </a>
+
+            <p class="page-label">
+                ADMIN ACCESS
+            </p>
+
+            <h1>
+                Secure Dashboard Login
+            </h1>
+
+            <p class="intro-text">
+                Enter your administrator password to review portfolio
+                contact messages.
+            </p>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form method="POST" class="login-form">
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Admin Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter admin password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <button type="submit" class="primary-button">
+                    Access Dashboard
+                </button>
+
+            </form>
+
+            <a href="{{ url_for('home') }}" class="back-link">
+                ← Return to Portfolio
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

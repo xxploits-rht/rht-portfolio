@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Contact Messages | RHT Security</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="admin-navbar">
+
+        <a href="{{ url_for('admin_messages') }}" class="admin-logo">
+            RHT // ADMIN
+        </a>
+
+        <div class="admin-actions">
+
+            <a href="{{ url_for('home') }}" class="nav-button">
+                View Portfolio
+            </a>
+
+            <a href="{{ url_for('admin_logout') }}" class="logout-button">
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="dashboard">
+
+        <section class="dashboard-heading">
+
+            <div>
+
+                <p class="page-label">
+                    CONTACT INBOX
+                </p>
+
+                <h1>
+                    Visitor Messages
+                </h1>
+
+                <p>
+                    Review inquiries received through your portfolio
+                    contact form.
+                </p>
+
+            </div>
+
+            <div class="message-counter">
+                <strong>{{ messages|length }}</strong>
+                <span>Total Messages</span>
+            </div>
+
+        </section>
+
+
+        {% with flash_messages = get_flashed_messages(with_categories=true) %}
+
+            {% if flash_messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in flash_messages %}
+
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% if messages %}
+
+            <section class="messages-grid">
+
+                {% for item in messages %}
+
+                    <article class="message-card">
+
+                        <div class="message-header">
+
+                            <div>
+
+                                <span class="message-id">
+                                    MESSAGE #{{ item["id"] }}
+                                </span>
+
+                                <h2>
+                                    {{ item["subject"] }}
+                                </h2>
+
+                            </div>
+
+                            <span class="message-date">
+                                {{ item["created_at"] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="sender-information">
+
+                            <div>
+
+                                <span>
+                                    Name
+                                </span>
+
+                                <strong>
+                                    {{ item["name"] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Email
+                                </span>
+
+                                <a href="mailto:{{ item['email'] }}">
+                                    {{ item["email"] }}
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="message-content">
+
+                            <span>
+                                Message
+                            </span>
+
+                            <p>
+                                {{ item["message"] }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="message-actions">
+
+                            <a
+                                href="mailto:{{ item['email'] }}?subject=Re: {{ item['subject'] }}"
+                                class="reply-button"
+                            >
+                                Reply by Email
+                            </a>
+
+                            <form
+                                action="{{ url_for('delete_message', message_id=item['id']) }}"
+                                method="POST"
+                                onsubmit="return confirm('Delete this message permanently?');"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+        {% else %}
+
+            <section class="empty-state">
+
+                <div class="empty-icon">
+                    ◇
+                </div>
+
+                <h2>
+                    No Messages Yet
+                </h2>
+
+                <p>
+                    New contact form submissions will appear here.
+                </p>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>
